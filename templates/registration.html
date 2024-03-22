@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/registration.css">
+    <title>Registration</title>
+</head>
+<body>
+<div class="container">
+    <h2>Registration</h2>
+
+    <form method="POST" action="/registration">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+
+        <label for="role">Role:</label><br>
+        <select id="role" name="role">
+            <option value="1">Owner</option>
+            <option value="2">Back-end</option>
+            <option value="3">Front-end</option>
+            <option value="4">3D</option>
+            <option value="5">Designer</option>
+        </select><br>
+
+        <input type="submit" value="Register">
+    </form>
+    {% if error %}
+        <h4>Error during registration!</h4>
+    {% endif %}
+    <p>Already have an account? <a href="/login">Login here</a></p>
+</div>
+</body>
+</html>

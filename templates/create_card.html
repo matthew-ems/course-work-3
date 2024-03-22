@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/create_card.css">
+    <title>Create Card</title>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Create Card for Agile Table</h1>
+
+    </nav>
+
+    <div class="container">
+        <form method="POST" class="card-form">
+            <label for="card_title">Название задачи:</label><br>
+            <input type="text" id="card_title" name="card_title"><br>
+
+            <label for="card_description">Описание:</label><br>
+            <textarea id="card_description" name="card_description"></textarea><br>
+
+            <label for="estimated_time">Предполагаемое время:</label><br>
+            <input type="text" id="estimated_time" name="estimated_time"><br>
+
+            <input type="submit" value="Create Card">
+        </form>
+
+        {% if error %}
+            <div class="error-message">Ошибка добавления</div>
+        {% endif %}
+        <a href="{{ url_for('agile_table', agile_id=agile_id) }}" class="agile">Назад</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/agile_table.css">
+    <title>{{ agile_table.agile_name }}</title>
+</head>
+<body>
+    <div class="navbar">
+        <h2 class="agile">{{ agile_table.agile_name }}</h2>
+        <a href="/agile-table/{{ agile_table.agile_id }}/create-card" class="create-card-link">Создать новую карточку</a>
+        <a href="/company/{{ agile_table.company_id }}" class="back-link">Назад к компании</a>
+    </div>
+    <div class="container">
+        <div class="column">
+            <h2>Открыта</h2>
+            <ul>
+                {% for card in agile_table.cards %}
+                    {% if card.status_card_id == 1 %}
+                        <li class="card">
+                            <h3>{{ card.card_title }}</h3>
+                            <p class="creator">Выполнитель: {{ card.creator.username }}</p>
+                            <p class="description">Описание: {{ card.card_description }}</p>
+                            <p class="status">Статус: {{ card.status_card.status_card_name }}</p>
+                            <p class="estimated-time">Предполагаемое время: {{ card.estimated_time.strftime('%H:%M') }} (ч:м)</p>
+                            {% if card.actual_time %}
+                                <p class="actual-time">Затраченное время: {{ card.actual_time.strftime('%H:%M') }}</p>
+                            {% else %}
+                                <p class="actual-time">Затраченное время: Not available</p>
+                            {% endif %}
+
+                            <!-- Форма для изменения статуса карточки -->
+                            <form action="/change-status/{{ card.card_id }}" method="POST" class="status-form">
+                                <select name="new_status_id" class="status-select">
+                                    <option value="1">Открыта</option>
+                                    <option value="2">Выполняется</option>
+                                    <option value="3">Завершена</option>
+                                </select>
+                                <button type="submit" class="status-button">Изменить статус</button>
+                            </form>
+                            <!-- Форма для добавления затраченного времени -->
+                            <form action="/add-elapsed-time/{{ card.card_id }}" method="POST" class="time-form">
+                                <input type="time" name="elapsed_time" required class="time-input">
+                                <button type="submit" class="time-button">Добавить время</button>
+                            </form>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>В процессе</h2>
+            <ul>
+                {% for card in agile_table.cards %}
+                    {% if card.status_card_id == 2 %}
+                        <li class="card">
+                            <h3>{{ card.card_title }}</h3>
+                            <p class="creator">Выполнитель: {{ card.creator.username }}</p>
+                            <p class="description">Описание: {{ card.card_description }}</p>
+                            <p class="status">Статус: {{ card.status_card.status_card_name }}</p>
+                            <p class="estimated-time">Предполагаемое время: {{ card.estimated_time.strftime('%H:%M') }} (ч:м)</p>
+                            {% if card.actual_time %}
+                                <p class="actual-time">Затраченное время: {{ card.actual_time.strftime('%H:%M') }}</p>
+                            {% else %}
+                                <p class="actual-time">Затраченное время: Not available</p>
+                            {% endif %}
+
+                            <!-- Форма для изменения статуса карточки -->
+                            <form action="/change-status/{{ card.card_id }}" method="POST" class="status-form">
+                                <select name="new_status_id" class="status-select">
+                                    <option value="1">Открыта</option>
+                                    <option value="2">Выполняется</option>
+                                    <option value="3">Завершена</option>
+                                </select>
+                                <button type="submit" class="status-button">Изменить статус</button>
+                            </form>
+                            <!-- Форма для добавления затраченного времени -->
+                            <form action="/add-elapsed-time/{{ card.card_id }}" method="POST" class="time-form">
+                                <input type="time" name="elapsed_time" required class="time-input">
+                                <button type="submit" class="time-button">Добавить время</button>
+                            </form>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>Завершена</h2>
+            <ul>
+                {% for card in agile_table.cards %}
+                    {% if card.status_card_id == 3 %}
+                        <li class="card">
+                            <h3>{{ card.card_title }}</h3>
+                            <p>Выполнитель: {{ card.creator.username }}</p>
+                            <p>Описание: {{ card.card_description }}</p>
+                            <p>Статус: {{ card.status_card.status_card_name }}</p>
+                            <p>Предполагаемое время: {{ card.estimated_time.strftime('%H:%M') }} (ч:м)</p>
+                            {% if card.actual_time %}
+                                <p>Затраченное время: {{ card.actual_time.strftime('%H:%M') }}</p>
+                            {% else %}
+                                <p>Затраченное время: Not available</p>
+                            {% endif %}
+
+                            <!-- Добавляем форму для изменения статуса карточки -->
+                            <form action="/change-status/{{ card.card_id }}" method="POST">
+                                <select name="new_status_id">
+                                    <option value="1">Открыта</option>
+                                    <option value="2">Выполняется</option>
+                                    <option value="3">Завершена</option>
+                                </select>
+                                <button type="submit">Изменить статус</button>
+                            </form>
+                            <!-- Добавляем форму для добавления затраченного времени -->
+                            <form action="/add-elapsed-time/{{ card.card_id }}" method="POST">
+                                <input type="time" name="elapsed_time" required>
+                                <button type="submit">Добавить время</button>
+                            </form>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>

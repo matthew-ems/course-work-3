@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/main.css">
+    <title>Main Page</title>
+</head>
+<body>
+    <!-- Верхнее навигационное меню -->
+    <div class="navbar">
+        <h2>Main Page</h2>
+        <p>Привет, {{ username }} (Должность: {{ user_role }})</p>
+        <a href="/add_company">Добавить компанию</a>
+        <a href="/logout">Выйти</a>
+    </div>
+
+    <!-- Компании, в которых вы являетесь владельцем -->
+    <div class="container">
+        <h3>Компании, в которых вы являетесь владельцем:</h3>
+        <ul class="company-list">
+            {% for company in owned_companies %}
+                <li><a href="/company/{{ company.company_id }}">{{ company.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Компании, в которых вы являетесь сотрудником -->
+    <div class="container">
+        <h3>Компании, в которых вы являетесь сотрудником:</h3>
+        <ul class="company-list">
+            {% for company in user_companies %}
+                <li><a href="/company/{{ company.company_id }}">{{ company.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/main.css">
+    <title>{{ company.name }}</title>
+</head>
+<body>
+    <div class="navbar">
+        <h3>{{ company.name }}</h3>
+        <p>Owner: {{ company.owner.username }}</p>
+        <a href="/chat/{{ company.company_id }}">Перейти в чат</a>
+        <a href="/main">Главное меню</a>
+    </div>
+    <div class="container">
+
+        <h2>Company Staff:</h2>
+        <ul>
+            {% for staff_member in company_staff %}
+                <li>
+                    {{ staff_member.user.username }}
+                    {% if company.company_owner == session.get('user_id') and staff_member.user.user_id != session.get('user_id') %}
+                        <form action="/remove_staff/{{ staff_member.staff_id }}" method="POST" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> Удалить
+                            </button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Agile Tables:</h2>
+        <ul>
+            {% for agile_table in company.agile_tables %}
+                <li><a href="/agile-table/{{ agile_table.agile_id }}">{{ agile_table.agile_name }}</a></li>
+            {% endfor %}
+        </ul>
+
+        {% if company.company_owner == session.get('user_id') %}
+        <form action="/company/{{ company.company_id }}" method="POST">
+            <label for="new_staff_username">Username:</label>
+            <input type="text" id="new_staff_username" name="new_staff_username">
+            <input type="submit" value="Add Staff" class="btn">
+        </form>
+
+        <form action="/company/{{ company.company_id }}" method="POST">
+            <label for="agile_name">Agile Table Name:</label>
+            <input type="text" id="agile_name" name="agile_name">
+            <input type="submit" value="Create Agile Table" class="btn">
+        </form>
+        {% if error %}
+        <h1 class="error">Ошибка добавления</h1>
+        {% endif %}
+        {% endif %}
+
+        <h2>Available Users to Add:</h2>
+        <ul>
+            {% for user in add_user %}
+                <li>{{ user.username }}</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Ссылка на страницу чата -->
+
+    </div>
+</body>
+</html>
